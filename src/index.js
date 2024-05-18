@@ -6,7 +6,10 @@ const apiRoutes = require('./routes/index');
 
 const app = express();
 
-const setupAndStartServer = () => {
+// const bcrypt = require('bcrypt');
+// const {User} =require('./models/index');
+
+const setupAndStartServer = async() => {
 
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: true}));
@@ -15,6 +18,13 @@ const setupAndStartServer = () => {
     app.listen(PORT, async() => {
         console.log(`Server started at ${PORT}`);
     });
+
+    // checking the password with encrypted password
+    // const mypassword = '123456';
+    // const user = await User.findByPk(7);
+    // const response = bcrypt.compareSync(mypassword, user.password);
+    // console.log(response);
+
 }
 
 setupAndStartServer();
