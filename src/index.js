@@ -5,8 +5,8 @@ const {PORT} = require('./config/serverConfig');
 const apiRoutes = require('./routes/index');
 
 const app = express();
-
-// const UserService = require('./services/user-service');
+// const {User, Role} = require('./models/index');
+const db = require('./models/index');
 
 const setupAndStartServer = async() => {
 
@@ -18,13 +18,18 @@ const setupAndStartServer = async() => {
         console.log(`Server started at ${PORT}`);
     });
 
-    // const userService = new UserService();
-    // const newToken = await userService.createToken({email: 'pradeep@admin.com', id: 3})
-    // console.log('new token is', newToken);
-    // const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InByYWRlZXBAYWRtaW4uY29tIiwiaWQiOjMsImlhdCI6MTcxNjE5NTg3NywiZXhwIjoxNzE2MjgyMjc3fQ.CeDoJO7IfO3y3W3j_VCA75b4enjfYfhrfBi2h-gQ-D0';
-    // const response = userService.verifyToken(token);
+    if(process.env.DB_SYNC){
+        db.sequelize.sync({ alter: true })
+    }
+
+    // const u1 = await User.findByPk(5);
+    // const r1 = await Role.findByPk(1);
+    // u1.addRole(r1);
+
+    // const response = await u1.getRoles();
+    // const response = await r1.getUsers();
+    // const response = await u1.hasRole(r1);
     // console.log(response);
-    
 }
 
 setupAndStartServer();
