@@ -1,11 +1,10 @@
-const {User} = require('../models/index');
+const {User, Role} = require('../models/index');
 
 class UserRepository{
     async createUser(data){
         try{
             const user = await User.create(data);
             return user;
-
         } catch(error){
             console.log('Something went wrong in user repository');
             throw error;
@@ -32,7 +31,6 @@ class UserRepository{
                 attributes: ['id','email']
             });
             return user;
-
         } catch(error){
             console.log('Something went wrong in user repository');
             throw error;
@@ -45,13 +43,27 @@ class UserRepository{
                 where: {email: userEmail}
             });
             return user;
-
         } catch(error){
             console.log('Something went wrong in user repository');
             throw error;
         }
     }
-    
+
+    async isAdmin(userId){
+        try{
+            const user = await User.findByPk(userId);
+            const adminRole = await Role.findOne({
+                where: {
+                    name: 'ADMIN'
+                }
+            });
+            return user.hasRole(adminRole);
+        } catch(error){
+            console.log('Something went wrong in user repository');
+            throw error;
+        }
+    }
+
 }
 
 module.exports = UserRepository;
